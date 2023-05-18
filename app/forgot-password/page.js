@@ -1,9 +1,8 @@
-export default function Home(request) {
-  console.log(request)
+export default function ForgotPassword(request) {
   const error = request.searchParams?.error
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
-        <form method="post" action="/send-code" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
+        <form method="post" action="/send-token" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) }     
             <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
