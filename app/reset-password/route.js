@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { kv } from '@vercel/kv'
 import { CourierClient } from '@trycourier/courier'
-import User from '../../models/users'
+import { updatePassword } from '../../models/users'
 import { getSession } from '../../session'
 
 const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
@@ -15,7 +15,7 @@ export async function POST(request) {
   const user_id = getSession(request, 'user_id')
   // look up the user based on phone or email
   if (user_id && password && passwordConfirmation && (password === passwordConfirmation)) {
-    User.updatePassword(user_id, password)
+    updatePassword(user_id, password)
     const home = new URL('/', request.url)
     home.searchParams.set('message', 'Your password has been reset 👍')
     return NextResponse.redirect(home)

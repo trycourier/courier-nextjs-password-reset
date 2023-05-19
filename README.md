@@ -9,26 +9,19 @@ In order to run this app, you'll need:
 
 ## Getting Started
 
-Clone the repo, install the dependencies and start the dev server:
+Clone the repo and install dependencies:
 
 ```bash
-npm intall
-npm run dev
+npm install
 ```
 
-Open up `http://localhost:3000` to make sure everything is working properly.
+Create a `.env.local` file at the root of the project to store secrets for Courier and Vercel.
 
 ## Courier Set-up
 
 Log-in to Dashboard
 
-Create a new User
-
-Edit models/users.json and add the user to the file
-
-Copy and paste your API key
-
-Create a `.env.local` file at the root of the project and store it:
+Copy and paste your API key into `.env.local`:
 
 ```
 COURIER_AUTH_TOKEN=pk_XXX
@@ -38,9 +31,7 @@ COURIER_AUTH_TOKEN=pk_XXX
 
 Create a new KV store
 
-Copy credentials
-
-Update .local.env
+Copy and paste credentials into `.env.local`:
 
 ```
 KV_URL=redis://default:YYY@smart-adder-ZZZ.kv.vercel-storage.com:34698
@@ -51,9 +42,11 @@ KV_REST_API_READ_ONLY_TOKEN=YYY
 
 ## Running the app
 
-Open `http://localhost:3000` in your browser and click on "Forgot Password".
+Open `http://localhost:3000` in your browser.
 
-On the `/forgot_password` page, enter the email or phone number of a User that you created earlier.
+Click "Create User" to create a user whose password you want to test resetting.
+
+Next, click "Forgot Password" and enter the email or phone number of the User that you just created.
 
 ## Deploy
 

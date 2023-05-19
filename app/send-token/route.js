@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { kv } from '@vercel/kv'
 import { CourierClient } from '@trycourier/courier'
-import User from '../../models/users'
+import { findUserByEmail, findUserByPhone } from '../../models/users'
 import { setSession } from '../../session'
 
 const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
@@ -11,13 +11,15 @@ export async function POST(request) {
   const params = await request.formData()
   const email = params.get('email')
   const phone = params.get('phone')
-  let user
+  let user, mode
   // look up the user based on phone or email
   if (email) {
-    user = User.findUserByEmail(email)
+    user = await findUserByEmail(email)
+    mode = "email"
   }
   else if (phone) {
-    user = User.findUserByPhone(phone)
+    user = await findUserByPhone(phone)
+    mode = "phone"
   }
   else {
     // neither an email nor phone number was submitted, re-direct and display error
@@ -55,10 +57,10 @@ export async function POST(request) {
         }
       }
     })
-    // redirect to reset password page
-    const response = NextResponse.redirect(new URL('/enter-token', request.url))
-    console.log("here")
-    setSession(response, 'user_id', user_id)
+    // redirect to enter token page
+    const nextUrl = new URL('/enter-token', request.url)
+    nextUrl.searchParams.set('mode', mode)
+    const response = NextResponse.redirect(nextUrl)
     return response
   }
   else {

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSession } from './session'
 
 export function middleware(request) {
-    const authenticated = getSession(request, 'session')
+    const authenticated = getSession(request, 'authenticated')
     if (authenticated) {
       return NextResponse.next()
     }

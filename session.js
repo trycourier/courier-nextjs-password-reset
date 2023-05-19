@@ -8,7 +8,6 @@ function getSession(req, attr) {
 }
 
 function setSession(res, attr, value) {
-    console.log("here")
     res.cookies.set(attr, value)
 }
 

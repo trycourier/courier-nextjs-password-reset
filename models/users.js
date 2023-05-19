@@ -1,22 +1,46 @@
-import users from './users.json' assert { type: 'json' }
+import { kv } from '@vercel/kv'
+import { createHash } from 'node:crypto'
 
 // TODO:
 //
-// Replace this stub with a properly implemented User Management service.
+// Replace this stub with a proper User Management backed by a service or DB. 
 
-function findUserByEmail(email) {
-    return users.find(u => u.email === email)
+async function createUser({ password, name, email, phone }) {
+    // create unique ID for user
+    const id = createHash('sha3-256').update(phone ? phone : email).digest('hex')
+    const key = `users:${ id }:${ email }:${ phone }`
+    const ex = 5 * 60 // expire this record in 5 minutes
+    await kv.set(key, { user_id: key, password, name, email, phone }, { ex })
+    return key
 }
 
-function findUserByPhone(phone) {
-    return users.find(u => u.phone === phone)
+async function findUserById(user_id) {
+    const keys = await kv.keys('users:*')
+    const key = keys.find(k => k.indexOf(user_id) >= 0)
+    return key ? await kv.get(key) : null
 }
 
-function updatePassword(user_id, password) {
-    users.find(u => u.user_id === user_id).password = password
+async function findUserByEmail(email) {
+    const keys = await kv.keys('users:*')
+    const key = keys.find(k => k.indexOf(email) >= 0)
+    return await kv.get(key)
 }
 
-export default {
+async function findUserByPhone(phone) {
+    const keys = await kv.keys('users:*')
+    const key = keys.find(k => k.indexOf(phone) >= 0)
+    return await kv.get(key)
+}
+
+async function updatePassword(key, password) {
+    const user = await kv.get(key)
+    const ex = 5 * 60 // expire this record in 5 minutes
+    await kv.set(key, { ...user, password }, { ex })
+}
+
+export {
+    createUser,
+    findUserById,
     findUserByEmail,
     findUserByPhone,
     updatePassword
