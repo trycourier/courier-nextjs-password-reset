@@ -1,8 +1,28 @@
+'use client';
+import {useRouter} from 'next/navigation';
+
 export default function EnterToken(request) {
+  const router = useRouter();
+  async function onCreateUser(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+	name: formData.get('name'),
+	email: formData.get('email'),
+	phone: formData.get('phone'),
+	password: formData.get('password'),
+    }
+    const response = await createUser(payload);
+    if (response.redirect) {
+	router.push(`${response.redirect}?message=${response.message}`)
+    }
+    return true
+
+  }
   const error = request.searchParams?.error
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
-        <form method="post" action="/create-user" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
+        <form onSubmit={onCreateUser} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) }     
             <div className="mb-4">
               <p>Please enter a real email or phone number in order to see how the demo works.</p>
@@ -23,3 +43,9 @@ export default function EnterToken(request) {
     </main>
   )
 }
+
+async function createUser(payload) {
+	const res = await fetch('/create-user', { method: 'POST', body: JSON.stringify(payload)});
+	if (!res.ok) return undefined;
+	return res.json();
+      }
