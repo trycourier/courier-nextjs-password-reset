@@ -23,13 +23,13 @@ async function findUserById(user_id) {
 async function findUserByEmail(email) {
     const keys = await kv.keys('users:*')
     const key = keys.find(k => k.indexOf(email) >= 0)
-    return await kv.get(key)
+    return key ? await kv.get(key) : null
 }
 
 async function findUserByPhone(phone) {
     const keys = await kv.keys('users:*')
     const key = keys.find(k => k.indexOf(phone) >= 0)
-    return await kv.get(key)
+    return key ? await kv.get(key) : null
 }
 
 async function updatePassword(key, password) {

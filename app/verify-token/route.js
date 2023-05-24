@@ -5,21 +5,23 @@ import { getSession, setSession } from '../../session'
 
 export async function POST(request) {
   // get phone number and email from form payload
-  const params = await request.formData()
-  const token = params.get('token')
+  const data = await request.json()
+  const { token } = data
   // get user_id from session
-  const user_id = getSession(request, 'user_id')
-  const foo = "" + await kv.get(`${user_id}:reset`) // ensure the token is of type string
-  if (user_id && token && (token === foo)) {
+  const userId = getSession(request, 'user_id')
+  const storedToken = "" + await kv.get(`${userId}:reset`) // ensure the token is of type string
+  if (userId && token && (token === storedToken)) {
     // redirect to reset password page
-    const response = NextResponse.redirect(new URL('/new-password', request.url))
+    const response = NextResponse.json({
+      redirect: '/new-password'
+    })
     setSession(response, 'authenticated', true)
     return response
   }
   else {
     // redirect and display error
-    const tokenUrl = new URL('/enter-token', request.url)
-    tokenUrl.searchParams.set('error', 'Token did not match, please try again?')
-    return NextResponse.redirect(tokenUrl);
+    return NextResponse.json({
+      error: 'Token did not match, please try again?'
+    })
   }
 }

@@ -1,9 +1,37 @@
+'use client';
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+async function verifyToken(payload) {
+	const res = await fetch('/verify-token', { method: 'POST', body: JSON.stringify(payload) });
+	if (!res.ok) return undefined;
+	return res.json();
+}
+
 export default function EnterToken(request) {
-  const error = request.searchParams?.error
+  const router = useRouter();
+  const [ error, setError ] = useState()
+
+  async function onVerifyToken(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+	    token: formData.get('token'),
+    }
+    const response = await verifyToken(payload);
+    if (response.error) {
+      setError(response.error)
+    }
+    else if (response.redirect) {
+	    router.push(response.redirect)
+    }
+    return true
+  }
+
   const mode = request.searchParams?.mode
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
-        <form method="post" action="/verify-token" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
+        <form method="post" onSubmit={ onVerifyToken } className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) }     
             <div className="mb-4">Check your { mode } and enter token that we have sent you below. </div>
             <div className="mb-4">

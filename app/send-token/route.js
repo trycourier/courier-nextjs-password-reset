@@ -8,9 +8,8 @@ const courier = CourierClient({ authorizationToken: process.env.courier_auth_tok
 
 export async function POST(request) {
   // get phone number and email from form payload
-  const params = await request.formData()
-  const email = params.get('email')
-  const phone = params.get('phone')
+  const data = await request.json()
+  const { email, phone } = data
   let user, mode
   // look up the user based on phone or email
   if (email) {
@@ -23,9 +22,9 @@ export async function POST(request) {
   }
   else {
     // neither an email nor phone number was submitted, re-direct and display error
-    const forgotUrl = new URL('/forgot-password', request.url)
-    forgotUrl.searchParams.set('error', 'You must provide an email or phone number')
-    return NextResponse.redirect(forgotUrl)
+    return NextResponse.json({
+      error: 'You must provide an email or phone number'
+    })
   }
 
   if (user) {
@@ -58,15 +57,15 @@ export async function POST(request) {
       }
     })
     // redirect to enter token page
-    const nextUrl = new URL('/enter-token', request.url)
-    nextUrl.searchParams.set('mode', mode)
-    const response = NextResponse.redirect(nextUrl)
-    return response
+    return NextResponse.json({
+      redirect: '/enter-token',
+      mode
+    })
   }
   else {
     // redirect and display error
-    const forgotUrl = new URL('/forgot-password', request.url)
-    forgotUrl.searchParams.set('error', 'We could not locate a user with that email address or phone number')
-    return NextResponse.redirect(forgotUrl);
+    return NextResponse.json({
+      error: 'We could not locate a user with that email address or phone number'
+    })
   }
 }

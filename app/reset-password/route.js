@@ -7,23 +7,23 @@ import { getSession } from '../../session'
 const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
 
 export async function POST(request) {
-  // get phone number and email from form payload
-  const params = await request.formData()
-  const password = params.get('new_password')
-  const passwordConfirmation = params.get('new_password_confirm')
+  // get passwords from payload
+  const data = await request.json()
+  const { newPassword, newPasswordConfirm } = data
   // get user_id from session
   const user_id = getSession(request, 'user_id')
-  // look up the user based on phone or email
-  if (user_id && password && passwordConfirmation && (password === passwordConfirmation)) {
-    updatePassword(user_id, password)
-    const home = new URL('/', request.url)
-    home.searchParams.set('message', 'Your password has been reset 👍')
-    return NextResponse.redirect(home)
+  // update the user
+  if (user_id && newPassword && newPasswordConfirm && (newPassword === newPasswordConfirm)) {
+    await updatePassword(user_id, newPassword)
+    return NextResponse.json({
+      redirect: '/',
+      message: 'Your password has been reset 👍'
+    })
   }
   else {
     // password don't match
-    const newPassword = new URL('/new-password', request.url)
-    newPassword.searchParams.set('error', 'Your passwords must match')
-    return NextResponse.redirect(newPassword)
+    return NextResponse.json({
+      error: 'Your passwords must match'
+    })
   }
 }

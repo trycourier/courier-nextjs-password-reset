@@ -1,25 +1,36 @@
 'use client';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react'
+
+async function createUser(payload) {
+	const res = await fetch('/create-user', { method: 'POST', body: JSON.stringify(payload) });
+	if (!res.ok) return undefined;
+	return res.json();
+}
 
 export default function EnterToken(request) {
   const router = useRouter();
+  const [ error, setError ] = useState()
+
   async function onCreateUser(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const payload = {
-	name: formData.get('name'),
-	email: formData.get('email'),
-	phone: formData.get('phone'),
-	password: formData.get('password'),
+	    name: formData.get('name'),
+	    email: formData.get('email'),
+	    phone: formData.get('phone'),
+	    password: formData.get('password'),
     }
-    const response = await createUser(payload);
-    if (response.redirect) {
-	router.push(`${response.redirect}?message=${response.message}`)
+    const response = await createUser(payload)
+    if (response.error) {
+      setError(response.error)
+    }
+    else if (response.redirect) {
+	    router.push(`${response.redirect}?message=${response.message}`)
     }
     return true
-
   }
-  const error = request.searchParams?.error
+  //const error = request.searchParams?.error
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
         <form onSubmit={onCreateUser} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
@@ -43,9 +54,3 @@ export default function EnterToken(request) {
     </main>
   )
 }
-
-async function createUser(payload) {
-	const res = await fetch('/create-user', { method: 'POST', body: JSON.stringify(payload)});
-	if (!res.ok) return undefined;
-	return res.json();
-      }

@@ -27,6 +27,11 @@ Copy and paste your API key into `.env.local`:
 COURIER_AUTH_TOKEN=pk_XXX
 ```
 
+Set-up an SMS provider
+
+Set-up an Email provider
+
+
 ## Vercel Set-up
 
 Create a new KV store

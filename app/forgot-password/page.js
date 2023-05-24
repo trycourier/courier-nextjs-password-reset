@@ -1,8 +1,36 @@
+'use client';
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+async function sendToken(payload) {
+	const res = await fetch('/send-token', { method: 'POST', body: JSON.stringify(payload) });
+	if (!res.ok) return undefined;
+	return res.json();
+}
+
 export default function ForgotPassword(request) {
-  const error = request.searchParams?.error
+  const router = useRouter();
+  const [ error, setError ] = useState()
+
+  async function onForgotPassword(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+	    email: formData.get('email'),
+	    phone: formData.get('phone')
+    }
+    const response = await sendToken(payload);
+    if (response.error) {
+      setError(response.error)
+    }
+    else if (response.redirect) {
+	    router.push(`${response.redirect}?mode=${response.mode}`)
+    }
+    return true
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
-        <form method="post" action="/send-token" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
+        <form method="post" onSubmit={ onForgotPassword } className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) } 
             <div className="mb-4">Please user the same email or phone number that you used to <a href="/new-user">create your user</a>.</div>    
             <div className="mb-4">

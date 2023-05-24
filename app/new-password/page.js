@@ -1,8 +1,37 @@
+'use client';
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
+async function resetPassword(payload) {
+	const res = await fetch('/reset-password', { method: 'POST', body: JSON.stringify(payload) });
+	if (!res.ok) return undefined;
+	return res.json();
+}
+
 export default function NewPassword(request) {
-  const error = request.searchParams?.error
+  const router = useRouter();
+  const [ error, setError ] = useState()
+
+  async function onResetPassword(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+	    newPassword: formData.get('new_password'),
+      newPasswordConfirm: formData.get('new_password_confirm'),
+    }
+    const response = await resetPassword(payload);
+    if (response.error) {
+      setError(response.error)
+    }
+    else if (response.redirect) {
+	    router.push(`${response.redirect}?message=${response.message}`)
+    }
+    return true
+  }
+  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
-        <form method="post" action="/reset-password" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
+        <form method="post" onSubmit={ onResetPassword } className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) }     
             <div className="mb-4">Almost done! Now just enter a new password.</div>
             <div className="mb-4">
