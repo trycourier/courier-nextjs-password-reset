@@ -33,7 +33,7 @@ export async function POST(request) {
     const token = Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
     const ex = 5 * 60 // expire this record in 5 minutes
     // store in KV cache
-    await kv.set(`${user_id}:reset`, token, { ex });
+    await kv.set(`${user_id}:reset`, token, { ex })
     // send notification
     await courier.send({
       message: {
@@ -47,12 +47,6 @@ export async function POST(request) {
         data: {
           token,
           name
-        },
-        routing: {
-          method: "single",
-          channels: [
-            "sms", "email"
-          ]
         }
       }
     })

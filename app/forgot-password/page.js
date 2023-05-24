@@ -1,25 +1,25 @@
-'use client';
+'use client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 async function sendToken(payload) {
-	const res = await fetch('/send-token', { method: 'POST', body: JSON.stringify(payload) });
-	if (!res.ok) return undefined;
-	return res.json();
+	const res = await fetch('/send-token', { method: 'POST', body: JSON.stringify(payload) })
+	if (!res.ok) return undefined
+	return res.json()
 }
 
 export default function ForgotPassword(request) {
-  const router = useRouter();
+  const router = useRouter()
   const [ error, setError ] = useState()
 
   async function onForgotPassword(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+    event.preventDefault()
+    const formData = new FormData(event.target)
     const payload = {
 	    email: formData.get('email'),
 	    phone: formData.get('phone')
     }
-    const response = await sendToken(payload);
+    const response = await sendToken(payload)
     if (response.error) {
       setError(response.error)
     }

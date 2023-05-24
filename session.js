@@ -1,6 +1,4 @@
-// TODO:
-//
-// Replace this with a proper implementation of a session provider for your app, such as https://github.com/vvo/iron-session .
+// TODO: Replace this with a proper implementation of a session provider for your app, such as https://github.com/vvo/iron-session .
 
 function getSession(req, attr) {
     const cookie = req.cookies.get(attr)

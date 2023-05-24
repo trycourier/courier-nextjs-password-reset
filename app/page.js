@@ -4,8 +4,8 @@ import { getSession } from '../session'
 import { cookies } from 'next/headers'
 
 async function getUser() {
-  const cookieStore = cookies();
-  const user_id = cookieStore.get('user_id');
+  const cookieStore = cookies()
+  const user_id = cookieStore.get('user_id')
   return user_id ? await findUserById(user_id.value) : undefined
 }
 
@@ -55,7 +55,7 @@ export default async function Home(request) {
           <h2 className={`mb-3 text-2xl font-semibold`}>
             Sign-up{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+              -&gt
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
@@ -72,7 +72,7 @@ export default async function Home(request) {
           <h2 className={`mb-3 text-2xl font-semibold`}>
             Docs{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+              -&gt
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
@@ -89,7 +89,7 @@ export default async function Home(request) {
           <h2 className={`mb-3 text-2xl font-semibold`}>
             Integrations{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+              -&gt
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
@@ -106,11 +106,11 @@ export default async function Home(request) {
           <h2 className={`mb-3 text-2xl font-semibold`}>
             Changelog{' '}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
+              -&gt
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            See what we&apos;ve fixed and what we&apos;ve shipped every week
+            See what we&aposve fixed and what we&aposve shipped every week
           </p>
         </a>
       </div>

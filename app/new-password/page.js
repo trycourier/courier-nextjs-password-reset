@@ -1,25 +1,25 @@
-'use client';
+'use client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 async function resetPassword(payload) {
-	const res = await fetch('/reset-password', { method: 'POST', body: JSON.stringify(payload) });
-	if (!res.ok) return undefined;
-	return res.json();
+	const res = await fetch('/reset-password', { method: 'POST', body: JSON.stringify(payload) })
+	if (!res.ok) return undefined
+	return res.json()
 }
 
 export default function NewPassword(request) {
-  const router = useRouter();
+  const router = useRouter()
   const [ error, setError ] = useState()
 
   async function onResetPassword(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+    event.preventDefault()
+    const formData = new FormData(event.target)
     const payload = {
 	    newPassword: formData.get('new_password'),
       newPasswordConfirm: formData.get('new_password_confirm'),
     }
-    const response = await resetPassword(payload);
+    const response = await resetPassword(payload)
     if (response.error) {
       setError(response.error)
     }

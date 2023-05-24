@@ -1,24 +1,24 @@
-'use client';
+'use client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 async function verifyToken(payload) {
-	const res = await fetch('/verify-token', { method: 'POST', body: JSON.stringify(payload) });
-	if (!res.ok) return undefined;
-	return res.json();
+	const res = await fetch('/verify-token', { method: 'POST', body: JSON.stringify(payload) })
+	if (!res.ok) return undefined
+	return res.json()
 }
 
 export default function EnterToken(request) {
-  const router = useRouter();
+  const router = useRouter()
   const [ error, setError ] = useState()
 
   async function onVerifyToken(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+    event.preventDefault()
+    const formData = new FormData(event.target)
     const payload = {
 	    token: formData.get('token'),
     }
-    const response = await verifyToken(payload);
+    const response = await verifyToken(payload)
     if (response.error) {
       setError(response.error)
     }

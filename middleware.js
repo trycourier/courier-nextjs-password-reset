@@ -15,4 +15,4 @@ export function middleware(request) {
 
 export const config = {
   matcher: ['/new-password', '/reset-password'],
-};
+}

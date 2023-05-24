@@ -1,20 +1,20 @@
-'use client';
-import { useRouter } from 'next/navigation';
+'use client'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 async function createUser(payload) {
-	const res = await fetch('/create-user', { method: 'POST', body: JSON.stringify(payload) });
-	if (!res.ok) return undefined;
-	return res.json();
+	const res = await fetch('/create-user', { method: 'POST', body: JSON.stringify(payload) })
+	if (!res.ok) return undefined
+	return res.json()
 }
 
 export default function EnterToken(request) {
-  const router = useRouter();
+  const router = useRouter()
   const [ error, setError ] = useState()
 
   async function onCreateUser(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+    event.preventDefault()
+    const formData = new FormData(event.target)
     const payload = {
 	    name: formData.get('name'),
 	    email: formData.get('email'),

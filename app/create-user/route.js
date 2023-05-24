@@ -7,13 +7,11 @@ import { setSession } from '../../session'
 const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
 
 export async function POST(request) {
-  // get full name, phone number and email from form payload
-  const data = await request.json();
-  console.log(data)
-  // create the User
+  const data = await request.json()
+  // get full name, phone number, email and password from form payload
   const { name, email, phone, password } = data
+  // create the User
   const user_id = await createUser({ name, email, phone, password })
-  console.log(user_id)
   // create the Courier Profile for this User
   await courier.mergeProfile({
     recipientId: user_id, 
