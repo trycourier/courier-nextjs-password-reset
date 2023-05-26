@@ -7,8 +7,8 @@ export function middleware(request) {
       return NextResponse.next()
     }
     else {
-      const forgotUrl = new URL('/forgot-password', request.url)
-      forgotUrl.searchParams.set('error', 'You are not authorized')
+      const forgotUrl = new URL('/', request.url)
+      forgotUrl.searchParams.set('message', 'You are not authorized')
       return NextResponse.redirect(forgotUrl)
     }
 }

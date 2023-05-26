@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server'
 import { kv } from '@vercel/kv'
-import { CourierClient } from '@trycourier/courier'
 import { updatePassword } from '../../models/users'
 import { getSession } from '../../session'
-
-const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
 
 export async function POST(request) {
   // get passwords from payload

@@ -5,12 +5,14 @@ import { createHash } from 'node:crypto'
 //
 // Replace this stub with a proper User Management backed by a service or DB. 
 
-async function createUser({ password, name, email, phone }) {
+async function createUser({ password, name, email, phone, preference }) {
     // create unique ID for user
     const id = createHash('sha3-256').update(phone ? phone : email).digest('hex')
     const key = `users:${ id }:${ email }:${ phone }`
     const ex = 5 * 60 // expire this record in 5 minutes
-    await kv.set(key, { user_id: key, password, name, email, phone }, { ex })
+    // hash the password
+    const hashed_password = createHash('sha3-256').update(password).digest('hex')
+    await kv.set(key, { user_id: key, hashed_password, name, email, phone, preference }, { ex })
     return key
 }
 
@@ -35,7 +37,9 @@ async function findUserByPhone(phone) {
 async function updatePassword(key, password) {
     const user = await kv.get(key)
     const ex = 5 * 60 // expire this record in 5 minutes
-    await kv.set(key, { ...user, password }, { ex })
+    // hash the password
+    const hashed_password = createHash('sha3-256').update(password).digest('hex')
+    await kv.set(key, { ...user, hashed_password }, { ex })
 }
 
 export {

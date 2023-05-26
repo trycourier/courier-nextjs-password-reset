@@ -24,7 +24,7 @@ export default function ForgotPassword(request) {
       setError(response.error)
     }
     else if (response.redirect) {
-	    router.push(`${response.redirect}?mode=${response.mode}`)
+	    router.push(`${response.redirect}?preference=${response.preference}`)
     }
     return true
   }
@@ -32,7 +32,7 @@ export default function ForgotPassword(request) {
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
         <form method="post" onSubmit={ onForgotPassword } className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) } 
-            <div className="mb-4">Please user the same email or phone number that you used to <a href="/new-user">create your user</a>.</div>    
+            <div className="mb-4">Please use the same email address or phone number that you used to <a href="/new-user">create your user</a>.</div>    
             <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
                 <input type="email" name="email" id="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></input>

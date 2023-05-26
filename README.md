@@ -27,6 +27,12 @@ Copy and paste your API key into `.env.local`:
 COURIER_AUTH_TOKEN=pk_XXX
 ```
 
+Copy and paste Template ID into envvars:
+
+```
+COURIER_TEMPLATE=YYYY
+```
+
 Set-up an SMS provider
 
 Set-up an Email provider

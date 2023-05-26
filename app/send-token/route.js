@@ -10,15 +10,13 @@ export async function POST(request) {
   // get phone number and email from form payload
   const data = await request.json()
   const { email, phone } = data
-  let user, mode
+  let user
   // look up the user based on phone or email
   if (email) {
     user = await findUserByEmail(email)
-    mode = "email"
   }
   else if (phone) {
     user = await findUserByPhone(phone)
-    mode = "phone"
   }
   else {
     // neither an email nor phone number was submitted, re-direct and display error
@@ -28,7 +26,7 @@ export async function POST(request) {
   }
 
   if (user) {
-    const { user_id, name } = user
+    const { user_id, preference } = user
     // generate reset token
     const token = Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
     const ex = 5 * 60 // expire this record in 5 minutes
@@ -39,21 +37,17 @@ export async function POST(request) {
       message: {
         to: {
           user_id
-       },
-        content:{
-          title: "Your password reset token",
-          body: "Hi there {{ name }} 👋 Your password reset token is: {{ token }}"
         },
+        template: process.env.COURIER_TEMPLATE,
         data: {
-          token,
-          name
+          token
         }
       }
     })
     // redirect to enter token page
     return NextResponse.json({
       redirect: '/enter-token',
-      mode
+      preference
     })
   }
   else {
