@@ -1,11 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project that is integrated with [Courier](https://courier.com).
+![Next.js + Courier](https://www.courier.com/_next/image/?url=https%3A%2F%2Fimages.ctfassets.net%2Fz7iqk1q8njt4%2F63jMY17H1Oi8YlzRQFWRut%2F2fd6d19434c556f77dd829e5aa19baad%2Fnextjs-courier.jpg&w=1920&q=75)
 
-## Prerequisites
+This is a [Next.js](https://nextjs.org/) project that is integrated with [Courier](https://courier.com) and [Vercel KV](https://vercel.com)
 
-In order to run this app, you'll need:
-
-1. A [Courier](https://courier.com/?utm_source=courier-nextjs-password-reset&utm_medium=code-template&utm_campaign=devrel-apps) account
-2. A [Vercel](https://vercel.com) account
+Check-out [this deep dive](https://www.courier.com/blog/how-to-send-password-resets-via-sms-and-email-using-node-js-and-next-js/) into how this app was built for more details.
 
 ## Getting Started
 
@@ -15,40 +12,31 @@ Clone the repo and install dependencies:
 npm install
 ```
 
+## Prerequisites
+
+In order to run this app, you'll need:
+
+1. A free [Courier](https://courier.com/?utm_source=courier-nextjs-password-reset&utm_medium=code-template&utm_campaign=devrel-apps) account
+2. A free [Vercel](https://vercel.com) account
+
+## Configure Courier and Vercel accounts
+
+Follow the instructions in this [companion blog post](https://www.courier.com/blog/how-to-send-password-resets-via-sms-and-email-using-node-js-and-next-js/) to:
+
+- Retrieve your Courier API key
+- Set-up email and SMS providers for Courier
+- Set-up email and SMS notification templates
+- Create a Vercel KV DB
+
 Create a `.env.local` file at the root of the project to store secrets for Courier and Vercel.
 
-## Courier Set-up
-
-Log-in to Dashboard
-
-Copy and paste your API key into `.env.local`:
-
 ```
-COURIER_AUTH_TOKEN=pk_XXX
-```
-
-Copy and paste Template ID into envvars:
-
-```
-COURIER_TEMPLATE=YYYY
-```
-
-Set-up an SMS provider
-
-Set-up an Email provider
-
-
-## Vercel Set-up
-
-Create a new KV store
-
-Copy and paste credentials into `.env.local`:
-
-```
-KV_URL=redis://default:YYY@smart-adder-ZZZ.kv.vercel-storage.com:34698
-KV_REST_API_URL=https://smart-adder-ZZZ.kv.vercel-storage.com
-KV_REST_API_TOKEN=XXX
-KV_REST_API_READ_ONLY_TOKEN=YYY
+COURIER_AUTH_TOKEN=pk_prod_xxx
+COURIER_TEMPLATE=yyy
+KV_URL="redis://default:12345@szzz.kv.vercel-storage.com:34698"
+KV_REST_API_URL="https://zzz.kv.vercel-storage.com"
+KV_REST_API_TOKEN="abcdef"
+KV_REST_API_READ_ONLY_TOKEN="abcdef"
 ```
 
 ## Running the app
