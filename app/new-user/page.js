@@ -42,7 +42,7 @@ export default function NewUser(request) {
     <main className="flex min-h-screen flex-col items-center justify-between p-24"> 
         <form onSubmit={onCreateUser} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">    
             { error && ( <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{ error }</div>) }     
-            <div className="mb-4">
+            <div className="mb-4 text-black">
               <p>Create a FAKE user so that we can test the password reset flow.</p>
               <p>Please enter your REAL email address and phone number in order to see how the demo works.</p>
               <p>NOTE: all your data will be purged after 5 minutes.</p>
@@ -57,7 +57,7 @@ export default function NewUser(request) {
                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                 <input type="password" name="password" id="password" className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></input>
                 <label htmlFor="preference" className="block text-gray-700 text-sm font-bold mb-2">Notification Preference</label>
-                <select name="preference" id="preference">
+                <select name="preference" id="preference" className="text-black">
                   <option value="email" selected={true}>Email</option>
                   <option value="phone">SMS</option>
                 </select>
