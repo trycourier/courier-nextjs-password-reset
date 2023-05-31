@@ -58,7 +58,7 @@ export default function NewUser(request) {
                 <input type="password" name="password" id="password" className="mb-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></input>
                 <label htmlFor="preference" className="block text-gray-700 text-sm font-bold mb-2">Notification Preference</label>
                 <select name="preference" id="preference">
-                  <option value="email">Email</option>
+                  <option value="email" selected={true}>Email</option>
                   <option value="phone">SMS</option>
                 </select>
             </div>
