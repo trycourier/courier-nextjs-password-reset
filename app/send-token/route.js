@@ -4,7 +4,7 @@ import { CourierClient } from '@trycourier/courier'
 import { findUserByEmail, findUserByPhone } from '../../models/users'
 import { setSession } from '../../session'
 
-const courier = CourierClient({ authorizationToken: process.env.courier_auth_token })
+const courier = CourierClient()
 
 export async function POST(request) {
   // get phone number and email from form payload
