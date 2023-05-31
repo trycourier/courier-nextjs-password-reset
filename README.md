@@ -1,6 +1,6 @@
 ![Next.js + Courier](https://www.courier.com/_next/image/?url=https%3A%2F%2Fimages.ctfassets.net%2Fz7iqk1q8njt4%2F63jMY17H1Oi8YlzRQFWRut%2F2fd6d19434c556f77dd829e5aa19baad%2Fnextjs-courier.jpg&w=1920&q=75)
 
-This is a [Next.js](https://nextjs.org/) project that is integrated with [Courier](https://courier.com) and [Vercel KV](https://vercel.com)
+This is a [Next.js](https://nextjs.org/) project that is integrated with [Courier](https://courier.com/?utm_source=courier-nextjs-password-reset&utm_medium=code-template&utm_campaign=devrel-apps) and [Vercel KV](https://vercel.com).
 
 Check-out [this deep dive](https://www.courier.com/blog/how-to-send-password-resets-via-sms-and-email-using-node-js-and-next-js/) into how this app was built for more details.
 
